@@ -10,6 +10,13 @@ use App\Http\Controllers\Controller;
 
 class ImageController extends Controller
 {
+    function __construct()
+    {
+         $this->middleware('permission:image-list|image-create|image-edit|image-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:image-create', ['only' => ['create','store']]);
+         $this->middleware('permission:image-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:image-delete', ['only' => ['destroy']]);
+    }
     /**
      * Display a listing of the resource.
      *

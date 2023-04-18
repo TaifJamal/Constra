@@ -8,6 +8,13 @@ use App\Http\Controllers\Controller;
 
 class FactController extends Controller
 {
+    function __construct()
+    {
+         $this->middleware('permission:fact-list|fact-create|fact-edit|fact-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:fact-create', ['only' => ['create','store']]);
+         $this->middleware('permission:fact-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:fact-delete', ['only' => ['destroy']]);
+    }
     /**
      * Display a listing of the resource.
      *

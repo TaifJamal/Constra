@@ -1,8 +1,8 @@
 @extends('admin.master')
-@section('title', 'User | ' . env('APP_NAME'))
+@section('titel','Role')
 @section('content')
 
-    <h1>All Users</h1>
+    <h1>All Roles</h1>
     @if (session('msg'))
         <div class="alert alert-{{ session('type') }}">
             {{ session('msg') }}
@@ -14,20 +14,17 @@
             <tr>
                 <th>ID</th>
                 <th>Name</th>
-                <th>Role</th>
-                <th>Type</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                @foreach ($users as $user)
-                    <td>{{ $user->id }}</td>
-                    <td>{{ $user->name }} </td>
-                    <td>{{ $user->role? $user->role->name: ''}} </td>
-                    <td>{{ $user->type }} </td>
+                @foreach ($roles as $role)
+                    <td>{{ $role->id }}</td>
+                    <td>{{ $role->name }}</td>
                     <td>
-                        <form class="d-inline" action="{{ route('admin.users.destroy', $user->id) }}" method="POST">
+                        <a class="btn btn-primary" href="{{ route('admin.roles.edit', $role->id) }}"><i class="fas fa-edit"></i></a>
+                        <form class="d-inline" action="{{ route('admin.roles.destroy', $role->id) }}" method="POST">
                             @csrf
                             @method('delete')
                         <button class="btn btn-danger" onclick="return confirm('Are you sure')"><i class="fas fa-trash"></i></button>
@@ -39,4 +36,3 @@
     </table>
 
 @stop
-

@@ -5,7 +5,9 @@ use App\Http\Controllers\Site\SiteController;
 use App\Http\Controllers\Admin\FactController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\TeamController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\ImageController;
 use App\Http\Controllers\Admin\ClinetController;
@@ -20,7 +22,7 @@ use App\Http\Controllers\Admin\projectDetaileController;
 //dashbord routes
 
  //admin routes
-Route::prefix('admin')->name('admin.')->group(function () {
+Route::prefix('admin')->name('admin.')->middleware('auth','check_user')->group(function () {
     Route::get('/',[AdminController::class,'index'])->name('index');
     Route::get('users',[AdminController::class,'users'])->name('users');
     Route::delete('users/destroy/{id}', [AdminController::class, 'destroy'])->name('users.destroy');
@@ -111,6 +113,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('testimonials/{id}/restore', [TestimonialController::class, 'restore'])->name('testimonials.restore');
     Route::delete('testimonials/{id}/forcedelete', [TestimonialController::class, 'forcedelete'])->name('testimonials.forcedelete');
     Route::resource('testimonials',TestimonialController::class);
+
+    Route::resource('roles',RoleController::class);
+    Route::resource('users',UserController::class);
+
 });
 
 //Site routes
@@ -129,8 +135,8 @@ Route::get('/faqs',[SiteController::class,'faqs'])->name('site.faqs');
 Route::get('/prices',[SiteController::class,'prices'])->name('site.prices');
 
 
-// Route::view('not','not_allawd');
-//->middleware('auth','check_user')
+
+Route::view('not','admin.not_allawd');
 
 Auth::routes();
 
